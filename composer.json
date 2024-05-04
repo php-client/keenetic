@@ -1,5 +1,5 @@
 {
-    "name": "phpclient/keenetic-router",
+    "name": "phpclient/keenetic",
     "description": "PHP Client for Keenetic Router",
     "type": "library",
     "require": {
