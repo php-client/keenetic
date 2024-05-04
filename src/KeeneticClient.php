@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use stdClass;
 
-final class Client
+final class KeeneticClient
 {
     private HttpClient $http;
 
