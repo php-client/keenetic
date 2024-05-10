@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClient\KeeneticRouter\Payloads;
+namespace PhpClient\KeeneticRouter\Resources;
 
 use PhpClient\Support\ValueObjects\Hostname;
 use PhpClient\Support\ValueObjects\IpAddressV4;
