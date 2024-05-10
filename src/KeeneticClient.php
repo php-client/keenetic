@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpClient\KeeneticRouter;
 
-use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
@@ -18,7 +18,7 @@ use RuntimeException;
 
 final readonly class KeeneticClient
 {
-    private HttpClient $http;
+    private Client $http;
 
     public CommonActions $commonActions;
 
@@ -30,7 +30,7 @@ final readonly class KeeneticClient
         private string $login,
         private string $password,
     ) {
-        $this->http = new HttpClient(
+        $this->http = new Client(
             config: [
                 'base_uri' => $this->uri,
                 RequestOptions::COOKIES => $this->fileCookieJar(),
