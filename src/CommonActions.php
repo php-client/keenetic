@@ -17,7 +17,7 @@ use PhpClient\KeeneticRouter\Responses\ShoIpHotspotResponse;
 use PhpClient\Support\ValueObjects\IpAddressV4;
 use PhpClient\Support\ValueObjects\MacAddress;
 
-class CommonRequestsFactory
+final readonly class CommonActions
 {
     public function __construct(
         private KeeneticClient $client

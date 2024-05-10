@@ -20,7 +20,7 @@ final readonly class KeeneticClient
 {
     private HttpClient $http;
 
-    public CommonRequestsFactory $common;
+    public CommonActions $commonActions;
 
     /**
      * @throws GuzzleException
@@ -39,7 +39,7 @@ final readonly class KeeneticClient
 
         $this->ensureAuthenticated() ?: throw new RuntimeException(message: 'Keenetic auth failed');
 
-        $this->common = new CommonRequestsFactory(client: $this);
+        $this->commonActions = new CommonActions(client: $this);
     }
 
     private function fileCookieJar(): FileCookieJar
