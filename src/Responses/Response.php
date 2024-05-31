@@ -20,4 +20,16 @@ abstract class Response
     {
         return $this->response->getStatusCode() === $this->successStatusCode->value;
     }
+
+    public function decodedContent(): mixed
+    {
+        return json_decode(
+            json: $this->content()
+        );
+    }
+
+    public function content(): string
+    {
+        return $this->response->getBody()->getContents();
+    }
 }

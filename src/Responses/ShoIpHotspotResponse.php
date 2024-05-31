@@ -17,10 +17,6 @@ class ShoIpHotspotResponse extends Response
      */
     public function listDevices(): array
     {
-        $data = json_decode(
-            json: $this->response->getBody()->getContents()
-        );
-
         return array_map(
             callback: static fn(stdClass $item): Device => new Device(
                 mac: new MacAddress(value: $item->mac),
@@ -32,7 +28,7 @@ class ShoIpHotspotResponse extends Response
                 ip: new IpAddressV4(value: $item->ip),
                 hostname: $item->hostname ? new Hostname(value: $item->hostname) : null,
             ),
-            array: $data->host,
+            array: $this->decodedContent()->host,
         );
     }
 }
