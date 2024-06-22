@@ -1,12 +1,12 @@
 <?php
 
-namespace PhpClient\KeeneticRouter\Resources;
+namespace PhpClient\Keenetic\Dto;
 
 use PhpClient\Support\ValueObjects\Hostname;
 use PhpClient\Support\ValueObjects\IpAddressV4;
 use PhpClient\Support\ValueObjects\MacAddress;
 
-readonly class Device
+final readonly class Device
 {
     public function __construct(
         public MacAddress $mac,

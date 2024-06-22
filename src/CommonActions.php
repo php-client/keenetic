@@ -2,89 +2,78 @@
 
 declare(strict_types=1);
 
-namespace PhpClient\KeeneticRouter;
+namespace PhpClient\Keenetic;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Response;
-use PhpClient\KeeneticRouter\Resources\Device;
-use PhpClient\KeeneticRouter\Requests\IpDhcpHostNoRequest;
-use PhpClient\KeeneticRouter\Requests\IpDhcpHostRequest;
-use PhpClient\KeeneticRouter\Requests\KnownHostNoRequest;
-use PhpClient\KeeneticRouter\Requests\KnownHostRequest;
-use PhpClient\KeeneticRouter\Requests\ShowIpHotspotRequest;
-use PhpClient\KeeneticRouter\Responses\CommonResponse;
-use PhpClient\KeeneticRouter\Responses\ShoIpHotspotResponse;
+use PhpClient\Keenetic\Dto\DeviceCollection;
+use PhpClient\Keenetic\Requests\GetShowIpHotspotRequest;
+use PhpClient\Keenetic\Requests\PostIpDhcpHostNoRequest;
+use PhpClient\Keenetic\Requests\PostIpDhcpHostRequest;
+use PhpClient\Keenetic\Requests\PostKnownHostNoRequest;
+use PhpClient\Keenetic\Requests\PostKnownHostRequest;
 use PhpClient\Support\ValueObjects\IpAddressV4;
 use PhpClient\Support\ValueObjects\MacAddress;
+use Saloon\Exceptions\Request\FatalRequestException;
+use Saloon\Exceptions\Request\RequestException;
 
 final readonly class CommonActions
 {
     public function __construct(
-        private KeeneticClient $client
+        private Keenetic $keenetic,
     ) {
     }
 
-    private function isSuccess(Response $response): bool
-    {
-        $customResponse = new CommonResponse(response: $response);
-
-        return $customResponse->isSuccess();
-    }
-
     /**
-     * @return list<Device>
-     * @throws GuzzleException
+     * @throws FatalRequestException|RequestException
      */
-    public function listDevices(): array
+    public function listDevices(): DeviceCollection
     {
-        $request = new ShowIpHotspotRequest();
-        $response = $this->client->send(request: $request);
-        $customResponse = new ShoIpHotspotResponse(response: $response);
+        $request = new GetShowIpHotspotRequest();
+        $response = $this->keenetic->send(request: $request);
 
-        return $customResponse->listDevices();
+        return $response->dto();
     }
 
     /**
-     * @throws GuzzleException
+     * @throws FatalRequestException|RequestException
      */
     public function registerDevice(MacAddress $mac, string $name): bool
     {
-        $request = new KnownHostRequest(mac: $mac, name: $name);
-        $response = $this->client->send(request: $request);
+        $request = new PostKnownHostRequest(mac: $mac, name: $name);
+        $response = $this->keenetic->send(request: $request);
 
-        return $this->isSuccess($response);
+        return $response->successful();
     }
 
     /**
-     * @throws GuzzleException
+     * @throws FatalRequestException|RequestException
      */
     public function unregisterDevice(MacAddress $mac): bool
     {
-        $request = new KnownHostNoRequest(mac: $mac);
-        $response = $this->client->send(request: $request);
+        $request = new PostKnownHostNoRequest(mac: $mac);
+        $response = $this->keenetic->send(request: $request);
 
-        return $this->isSuccess($response);
+        return $response->successful();
     }
 
     /**
-     * @throws GuzzleException
+     * @throws FatalRequestException|RequestException
      */
     public function setIpForDevice(MacAddress $mac, IpAddressV4 $ip): bool
     {
-        $request = new IpDhcpHostRequest(mac: $mac, ip: $ip);
-        $response = $this->client->send(request: $request);
+        $request = new PostIpDhcpHostRequest(mac: $mac, ip: $ip);
+        $response = $this->keenetic->send(request: $request);
 
-        return $this->isSuccess($response);
+        return $response->successful();
     }
 
     /**
-     * @throws GuzzleException
+     * @throws FatalRequestException|RequestException
      */
     public function unsetIpForDevice(MacAddress $mac): bool
     {
-        $request = new IpDhcpHostNoRequest(mac: $mac);
-        $response = $this->client->send(request: $request);
+        $request = new PostIpDhcpHostNoRequest(mac: $mac);
+        $response = $this->keenetic->send(request: $request);
 
-        return $this->isSuccess($response);
+        return $response->successful();
     }
 }
