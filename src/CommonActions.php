@@ -18,7 +18,7 @@ use Saloon\Exceptions\Request\RequestException;
 final readonly class CommonActions
 {
     public function __construct(
-        private Keenetic $keenetic,
+        private KeeneticClient $client,
     ) {
     }
 
@@ -28,7 +28,7 @@ final readonly class CommonActions
     public function listDevices(): DeviceCollection
     {
         $request = new GetShowIpHotspotRequest();
-        $response = $this->keenetic->send(request: $request);
+        $response = $this->client->send(request: $request);
 
         return $response->dto();
     }
@@ -39,7 +39,7 @@ final readonly class CommonActions
     public function registerDevice(MacAddress $mac, string $name): bool
     {
         $request = new PostKnownHostRequest(mac: $mac, name: $name);
-        $response = $this->keenetic->send(request: $request);
+        $response = $this->client->send(request: $request);
 
         return $response->successful();
     }
@@ -50,7 +50,7 @@ final readonly class CommonActions
     public function unregisterDevice(MacAddress $mac): bool
     {
         $request = new PostKnownHostNoRequest(mac: $mac);
-        $response = $this->keenetic->send(request: $request);
+        $response = $this->client->send(request: $request);
 
         return $response->successful();
     }
@@ -61,7 +61,7 @@ final readonly class CommonActions
     public function setIpForDevice(MacAddress $mac, IpAddressV4 $ip): bool
     {
         $request = new PostIpDhcpHostRequest(mac: $mac, ip: $ip);
-        $response = $this->keenetic->send(request: $request);
+        $response = $this->client->send(request: $request);
 
         return $response->successful();
     }
@@ -72,7 +72,7 @@ final readonly class CommonActions
     public function unsetIpForDevice(MacAddress $mac): bool
     {
         $request = new PostIpDhcpHostNoRequest(mac: $mac);
-        $response = $this->keenetic->send(request: $request);
+        $response = $this->client->send(request: $request);
 
         return $response->successful();
     }

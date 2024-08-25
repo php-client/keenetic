@@ -5,12 +5,12 @@ declare(strict_types=1);
 
 use Dotenv\Dotenv;
 use PhpClient\Keenetic\Dto\Credentials;
-use PhpClient\Keenetic\Keenetic;
+use PhpClient\Keenetic\KeeneticClient;
 use PhpClient\Keenetic\Requests\GetShowIpHotspotRequest;
 
 Dotenv::createImmutable(paths: __DIR__ . "/../..")->load();
 $baseUrl = $_ENV['KEENETIC_BASE_URL'] ?? '';
-$keenetic = new Keenetic(baseUrl: $baseUrl);
+$keenetic = new KeeneticClient(baseUrl: $baseUrl);
 
 test(
     description: 'auth',
@@ -25,7 +25,7 @@ test(
         );
 
         expect(value: $response)
-            ->toBeInstanceOf(class: Keenetic::class);
+            ->toBeInstanceOf(class: KeeneticClient::class);
     },
 );
 

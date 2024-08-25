@@ -17,7 +17,7 @@ use Saloon\Http\Response;
 use Saloon\Traits\Plugins\HasTimeout;
 use Throwable;
 
-final class Keenetic extends Connector
+final class KeeneticClient extends Connector
 {
     use HasTimeout;
     
@@ -27,7 +27,7 @@ final class Keenetic extends Connector
         private readonly string $baseUrl,
         private readonly CookieJar $cookieJar = new CookieJar(),
     ) {
-        $this->actions = new CommonActions(keenetic: $this);
+        $this->actions = new CommonActions(client: $this);
     }
 
     protected function defaultConfig(): array
@@ -53,7 +53,7 @@ final class Keenetic extends Connector
     /**
      * @throws FatalRequestException|RequestException|KeeneticException
      */
-    public function auth(Credentials $credentials): Keenetic
+    public function auth(Credentials $credentials): KeeneticClient
     {
         $getAuthRequest = new GetAuthRequest();
         $getAuthResponse = $this->send(request: $getAuthRequest);
