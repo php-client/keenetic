@@ -5,34 +5,24 @@ declare(strict_types=1);
 
 use Dotenv\Dotenv;
 use PhpClient\Keenetic\Dto\Credentials;
-use PhpClient\Keenetic\KeeneticClient;
-use PhpClient\Keenetic\Requests\GetShowIpHotspotRequest;
+use PhpClient\Keenetic\Keenetic;
+use PhpClient\Keenetic\Requests\Devices\ListDevicesRequest;
 
-Dotenv::createImmutable(paths: __DIR__ . "/../..")->load();
+Dotenv::createImmutable(paths: __DIR__."/../..")->load();
 $baseUrl = $_ENV['KEENETIC_BASE_URL'] ?? '';
-$keenetic = new KeeneticClient(baseUrl: $baseUrl);
+$login = $_ENV['KEENETIC_LOGIN'] ?? '';
+$password = $_ENV['KEENETIC_PASSWORD'] ?? '';
 
-test(
-    description: 'auth',
-    closure: function () use ($keenetic) {
-        $login = $_ENV['KEENETIC_LOGIN'] ?? '';
-        $password = $_ENV['KEENETIC_PASSWORD'] ?? '';
-        $response = $keenetic->auth(
-            credentials: new Credentials(
-                login: $login,
-                password: $password,
-            ),
-        );
-
-        expect(value: $response)
-            ->toBeInstanceOf(class: KeeneticClient::class);
-    },
+$keenetic = new Keenetic(
+    baseUrl: $baseUrl,
+    login: $login,
+    password: $password,
 );
 
 test(
     description: 'show ip hotspot',
     closure: function () use ($keenetic) {
-        $getShowIpHotspotRequest = new GetShowIpHotspotRequest();
+        $getShowIpHotspotRequest = new ListDevicesRequest();
         $response = $keenetic->send(
             request: $getShowIpHotspotRequest,
         );
@@ -40,18 +30,13 @@ test(
         expect(value: $response->json())
             ->toBeArray()
             ->toHaveKey(key: 'host');
-
-//        /** @var DeviceCollection $deviceCollection */
-//        $deviceCollection = $response->dtoOrFail();
-//        dd($deviceCollection->where('online', true)->whereStartWith('name', 'sento'));
-//        dd($deviceCollection->where('online', true)->whereEndsWith('name', 'eth'));
     },
 );
 
 test(
     description: 'common actions',
     closure: function () use ($keenetic) {
-        $devices = $keenetic->actions->listDevices();
-        dd($devices);
+        $response = $keenetic->api->devices()->listDevices();
+        dd($response->json());
     },
 );
