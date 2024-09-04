@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace PhpClient\Keenetic\Requests;
+namespace PhpClient\Keenetic\Requests\Auth;
 
-use PhpClient\Keenetic\Dto\Credentials;
-use PhpClient\Keenetic\Dto\RealmContext;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
-final class PostAuthRequest extends Request implements HasBody
+final class LoginRequest extends Request implements HasBody
 {
     use HasJsonBody;
 
     protected Method $method = Method::POST;
 
     public function __construct(
-        private readonly Credentials $credentials,
-        private readonly RealmContext $realmContext,
+        private readonly string $login,
+        private readonly string $password,
+        private readonly string $realm,
+        private readonly string $challenge,
     ) {
     }
 
@@ -31,7 +31,7 @@ final class PostAuthRequest extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'login' => $this->credentials->login,
+            'login' => $this->login,
             'password' => $this->passwordHash(),
         ];
     }
@@ -40,8 +40,8 @@ final class PostAuthRequest extends Request implements HasBody
     {
         return hash(
             algo: 'sha256',
-            data: $this->realmContext->challenge . md5(
-                string: "{$this->credentials->login}:{$this->realmContext->realm}:{$this->credentials->password}"
+            data: $this->challenge.md5(
+                string: "$this->login:$this->realm:$this->password",
             ),
         );
     }
