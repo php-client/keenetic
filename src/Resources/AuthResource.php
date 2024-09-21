@@ -37,8 +37,6 @@ final class AuthResource extends BaseResource
 
         throw new SaloonException(
             message: 'Failed to authenticate.',
-            request: $loginRequest,
-            response: $loginResponse,
         );
     }
 
