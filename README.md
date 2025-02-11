@@ -1,4 +1,4 @@
-# Php client for Ollama Api.
+# Php client for Keenetic Api.
 
 This is a PHP client for the [Keenetic Routers API](https://help.keenetic.com/hc/en-us).
 
