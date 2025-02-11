@@ -3,3 +3,7 @@ vendor
 references/
 composer.lock
 .env
+
+#don't ready
+tests/
+phpunit.xml
