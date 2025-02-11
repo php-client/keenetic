@@ -1,4 +1,4 @@
-# Php client for Keenetic Api.
+# Php client for Keenetic Routers Api.
 
 This is a PHP client for the [Keenetic Routers API](https://help.keenetic.com/hc/en-us).
 
@@ -24,7 +24,7 @@ $keenetic = new Keenetic(
 
 $keenetic->auth();
 
-$devices = $keenetic->api->devices()->listDevices();
+$response = $keenetic->api->devices()->listDevices();
 
 foreach ($response->json('host') as $device) {
     echo $device['name'];
