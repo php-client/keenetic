@@ -1,6 +1,7 @@
 {
   "name": "php-client/keenetic",
   "description": "PHP Client for Keenetic Router API",
+  "keywords": ["keenetic", "api", "client", "saloon"],
   "type": "library",
   "require": {
     "php": "^8.3",
