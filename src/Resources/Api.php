@@ -14,4 +14,11 @@ final class Api extends BaseResource
             connector: $this->connector,
         );
     }
+
+    public function system(): SystemResource
+    {
+        return new SystemResource(
+            connector: $this->connector,
+        );
+    }
 }
