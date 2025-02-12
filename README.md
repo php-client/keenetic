@@ -31,7 +31,24 @@ foreach ($response->json('host') as $device) {
 }
 ```
 
-TODO: Add more usage instructions for other endpoints...
+## List of available API methods
+
+API client is currently under development. 
+Presently, the following methods are available:
+
+- Devices
+  - List devices
+  - Register device
+  - Unregister device
+  - Set device IP
+  - Unset device IP
+- System
+  - Get default config
+  - Get running config
+  - Get startup config 
+  - Get log
+
+More methods will be added in the future. 
 
 ## License
 
