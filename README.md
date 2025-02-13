@@ -1,4 +1,4 @@
-# Php client for Keenetic Routers Api.
+# PHP client for Keenetic Routers API.
 
 This is a PHP client for the [Keenetic Routers API](https://help.keenetic.com/hc/en-us).
 
