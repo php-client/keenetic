@@ -5,7 +5,7 @@
   "type": "library",
   "require": {
     "php": "^8.3",
-    "phpclient/support": "dev-master",
+    "php-client/support": "dev-master",
     "saloonphp/saloon": "^3.9"
   },
   "require-dev": {
